@@ -13,8 +13,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
-    networks:
-      - default
   litespeed:
     image: litespeedtech/openlitespeed:${OLS_VERSION}-${PHP_VERSION}
     container_name: litespeed
@@ -29,24 +27,20 @@ services:
       - ./logs:/usr/local/lsws/logs/
     ports:
       - 80:80
-      - 444:443
-      - 444:443/udp
+      - 443:443
+      - 443:443/udp
       - 7080:7080
     restart: always
     environment:
       TZ: ${TimeZone}
-    networks:
-      - default
   phpmyadmin:
     image: bitnami/phpmyadmin:5.2.0-debian-11-r43
     ports:
-      - 8081:8080
+      - 8080:8080
       - 8443:8443
     environment:
         DATABASE_HOST: mysql
     restart: always
-    networks:
-      - default
   redis:
     image: "redis:alpine"
     logging:
@@ -58,8 +52,3 @@ services:
     environment:
       - REDIS_REPLICATION_MODE=master
     restart: always
-    networks:
-      - default
-networks:
-  default:
-    driver: bridge
