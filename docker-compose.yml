@@ -13,13 +13,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - extra/healthcheck
-      interval: 2s
-      timeout: 10s
-      retries: 15
   litespeed:
     image: litespeedtech/openlitespeed:${OLS_VERSION}-${PHP_VERSION}
     container_name: litespeed
@@ -35,25 +28,11 @@ services:
     restart: always
     environment:
       TZ: ${TimeZone}
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - extra/healthcheck
-      interval: 2s
-      timeout: 10s
-      retries: 15
   phpmyadmin:
     image: bitnami/phpmyadmin:5.2.0-debian-11-r43
     environment:
       DATABASE_HOST: mysql
     restart: always
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - extra/healthcheck
-      interval: 2s
-      timeout: 10s
-      retries: 15
   redis:
     image: "redis:alpine"
     logging:
@@ -65,10 +44,3 @@ services:
     environment:
       - REDIS_REPLICATION_MODE=master
     restart: always
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - extra/healthcheck
-      interval: 2s
-      timeout: 10s
-      retries: 15
